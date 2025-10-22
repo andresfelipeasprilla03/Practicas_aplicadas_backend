@@ -11,7 +11,7 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
-    Migrate(app, db)  # habilita migraciones (Alembic)
+    Migrate(app, db)  
 
     # -------- Health --------
     @app.get("/api/health")
@@ -261,7 +261,7 @@ def create_app():
         return jsonify([{"id_recopilacion": r.id_recopilacion, "nombre": r.nombre} for r in recs])
 
     # ====================================================
-    # CRUD CANCION_VINILO (N-N)
+    # CRUD CANCION_VINILO 
     # ====================================================
     @app.post("/api/cancion_vinilo")
     def create_cancion_vinilo():
@@ -273,7 +273,7 @@ def create_app():
         return jsonify(ok=True), 201
 
     # ====================================================
-    # CRUD CANCION_RECOPILACION (N-N)
+    # CRUD CANCION_RECOPILACION 
     # ====================================================
     @app.post("/api/cancion_recopilacion")
     def create_cancion_recopilacion():
