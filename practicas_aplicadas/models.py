@@ -7,14 +7,16 @@ db = SQLAlchemy()
 # MODELOS PRINCIPALES
 # ---------------------------
 
+# ---------- USUARIO ----------
 class Usuario(db.Model):
-    __tablename__ = 'usuario'
-    id_usuario = db.Column(db.Integer, primary_key=True)
-    nombre_completo = db.Column(db.String(100), nullable=False)
-    correo = db.Column(db.String(250), unique=True, nullable=False)
-    contrasena = db.Column(db.String(256), nullable=False)
-    fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
+    __tablename__ = 'usuario'  # Nombre de la tabla en la base de datos
+    id_usuario = db.Column(db.Integer, primary_key=True)  # Clave primaria
+    nombre_completo = db.Column(db.String(100), nullable=False)  # Nombre completo del usuario
+    correo = db.Column(db.String(250), unique=True, nullable=False)  # Correo único
+    contrasena = db.Column(db.String(256), nullable=False)  # Contraseña encriptada
+    fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)  # Fecha de registro automática
 
+    # Relaciones: un usuario puede tener varios pedidos, proveedores y recopilaciones
     pedidos = db.relationship('Pedido', backref='usuario', lazy=True)
     proveedores = db.relationship('Proveedor', backref='usuario', lazy=True)
     recopilaciones = db.relationship('Recopilacion', backref='usuario', lazy=True)
