@@ -22,6 +22,7 @@ class Usuario(db.Model):
     recopilaciones = db.relationship('Recopilacion', backref='usuario', lazy=True)
 
 
+# ---------- PROVEEDOR ----------
 class Proveedor(db.Model):
     __tablename__ = 'proveedor'
     id_proveedor = db.Column(db.Integer, primary_key=True)
@@ -30,6 +31,7 @@ class Proveedor(db.Model):
     telefono = db.Column(db.String(20))
     fecha_registro = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Un proveedor puede tener varios vinilos
     vinilos = db.relationship('Vinilo', backref='proveedor', lazy=True)
 
 
