@@ -44,18 +44,19 @@ class Genero(db.Model):
     # Un género puede tener muchas canciones
     canciones = db.relationship('Cancion', backref='genero', lazy=True)
 
-
+# ---------- CANCION ----------
 class Cancion(db.Model):
-    __tablename__ = 'cancion'
-    id_cancion = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    artista = db.Column(db.String(100), nullable=False)
-    duracion_segundos = db.Column(db.Integer)
-    tamano_mb = db.Column(db.Numeric(5, 2))
-    calidad_kbps = db.Column(db.Integer)
-    precio = db.Column(db.Numeric(6, 2))
-    id_genero = db.Column(db.Integer, db.ForeignKey('genero.id_genero'))
+    __tablename__ = 'cancion' # Tabla de canciones
+    id_cancion = db.Column(db.Integer, primary_key=True) # Clave primaria
+    nombre = db.Column(db.String(100), nullable=False) # Nombre de la canción
+    artista = db.Column(db.String(100), nullable=False) # Artista o banda
+    duracion_segundos = db.Column(db.Integer) # Duración de la canción en segundos
+    tamano_mb = db.Column(db.Numeric(5, 2))  # Tamaño del archivo en MB
+    calidad_kbps = db.Column(db.Integer) # Calidad del audio
+    precio = db.Column(db.Numeric(6, 2)) # Precio de compra
+    id_genero = db.Column(db.Integer, db.ForeignKey('genero.id_genero')) # Género al que pertenece
 
+    # Relaciones con tablas intermedias
     vinilos = db.relationship('CancionVinilo', back_populates='cancion', cascade='all, delete')
     recopilaciones = db.relationship('CancionRecopilacion', back_populates='cancion', cascade='all, delete')
 
