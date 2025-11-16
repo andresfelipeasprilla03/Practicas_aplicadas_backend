@@ -35,11 +35,13 @@ class Proveedor(db.Model):
     vinilos = db.relationship('Vinilo', backref='proveedor', lazy=True)
 
 
+# ---------- GENERO DE CANCIONES ----------
 class Genero(db.Model):
-    __tablename__ = 'genero'
-    id_genero = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(50), nullable=False)
+    __tablename__ = 'genero'  # Tabla para los géneros musicales
+    id_genero = db.Column(db.Integer, primary_key=True)  # Clave primaria
+    nombre = db.Column(db.String(50), nullable=False)  # Nombre del género
 
+    # Un género puede tener muchas canciones
     canciones = db.relationship('Cancion', backref='genero', lazy=True)
 
 
