@@ -1,33 +1,5 @@
 from django import forms
-from .models import (
-    Category,
-    Product,
-    Usuario,
-    Proveedor,
-    Genero,
-    Cancion,
-    Vinilo,
-    CancionVinilo,
-    Pedido,
-    DetallePedido,
-    Recopilacion,
-    CancionRecopilacion,
-)
-
-
-# ---------------------------
-# Categoría y Producto
-# ---------------------------
-class CategoryForm(forms.ModelForm):
-    class Meta:
-        model = Category
-        fields = '_all_'
-
-
-class ProductForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        fields = '_all_'
+from .models import *
 
 
 # ---------------------------
