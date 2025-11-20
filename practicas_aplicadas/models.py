@@ -60,19 +60,19 @@ class Cancion(db.Model):
     vinilos = db.relationship('CancionVinilo', back_populates='cancion', cascade='all, delete')
     recopilaciones = db.relationship('CancionRecopilacion', back_populates='cancion', cascade='all, delete')
 
-
+# ---------- VINILO ----------
 class Vinilo(db.Model):
-    __tablename__ = 'vinilo'
-    id_vinilo = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    artista = db.Column(db.String(100))
-    año_salida = db.Column(db.Date)
-    precio = db.Column(db.Numeric(6, 2))
-    stock = db.Column(db.Integer)
-    id_proveedor = db.Column(db.Integer, db.ForeignKey('proveedor.id_proveedor'))
+    __tablename__ = 'vinilo' # Tabla de vinilos físicos
+    id_vinilo = db.Column(db.Integer, primary_key=True)# Clave primaria
+    nombre = db.Column(db.String(100), nullable=False)# Nombre del vinilo
+    artista = db.Column(db.String(100))# Artista o banda principal
+    año_salida = db.Column(db.Date)# Fecha de lanzamiento
+    precio = db.Column(db.Numeric(6, 2))# Precio del vinilo
+    stock = db.Column(db.Integer)# Cantidad disponible
+    id_proveedor = db.Column(db.Integer, db.ForeignKey('proveedor.id_proveedor'))# Proveedor asociado
 
-    canciones = db.relationship('CancionVinilo', back_populates='vinilo', cascade='all, delete')
-    detalles_pedido = db.relationship('DetallePedido', backref='vinilo', lazy=True)
+    canciones = db.relationship('CancionVinilo', back_populates='vinilo', cascade='all, delete')# Canciones incluidas en este vinilo
+    detalles_pedido = db.relationship('DetallePedido', backref='vinilo', lazy=True)# Relación con los detalles de pedidos
 
 
 class CancionVinilo(db.Model):
