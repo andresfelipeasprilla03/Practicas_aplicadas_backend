@@ -74,12 +74,13 @@ class Vinilo(db.Model):
     canciones = db.relationship('CancionVinilo', back_populates='vinilo', cascade='all, delete')# Canciones incluidas en este vinilo
     detalles_pedido = db.relationship('DetallePedido', backref='vinilo', lazy=True)# Relación con los detalles de pedidos
 
-
+# ---------- TABLA INTERMEDIA VINILO - CANCION ----------
 class CancionVinilo(db.Model):
-    __tablename__ = 'cancion_vinilo'
-    id_vinilo = db.Column(db.Integer, db.ForeignKey('vinilo.id_vinilo'), primary_key=True)
-    id_cancion = db.Column(db.Integer, db.ForeignKey('cancion.id_cancion'), primary_key=True)
+    __tablename__ = 'cancion_vinilo'# Tabla intermedia de muchos a muchos
+    id_vinilo = db.Column(db.Integer, db.ForeignKey('vinilo.id_vinilo'), primary_key=True)# Vinilo asociado
+    id_cancion = db.Column(db.Integer, db.ForeignKey('cancion.id_cancion'), primary_key=True)# Canción asociada
 
+    # Relaciones bidireccionales
     vinilo = db.relationship('Vinilo', back_populates='canciones')
     cancion = db.relationship('Cancion', back_populates='vinilos')
 
