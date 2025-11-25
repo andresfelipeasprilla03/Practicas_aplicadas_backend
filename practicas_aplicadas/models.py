@@ -115,11 +115,12 @@ class Recopilacion(db.Model):
 
     canciones = db.relationship('CancionRecopilacion', back_populates='recopilacion', cascade='all, delete') # Canciones que contiene
 
-
+# ---------- TABLA INTERMEDIA RECOPILACIÓN - CANCION ----------
 class CancionRecopilacion(db.Model):
-    __tablename__ = 'cancion_recopilacion'
-    id_recopilacion = db.Column(db.Integer, db.ForeignKey('recopilacion.id_recopilacion'), primary_key=True)
-    id_cancion = db.Column(db.Integer, db.ForeignKey('cancion.id_cancion'), primary_key=True)
+    __tablename__ = 'cancion_recopilacion' # Tabla intermedia muchos a muchos
+    id_recopilacion = db.Column(db.Integer, db.ForeignKey('recopilacion.id_recopilacion'), primary_key=True) # Recopilación
+    id_cancion = db.Column(db.Integer, db.ForeignKey('cancion.id_cancion'), primary_key=True) # Canción
 
+    # Relaciones bidireccionales
     recopilacion = db.relationship('Recopilacion', back_populates='canciones')
     cancion = db.relationship('Cancion', back_populates='recopilaciones')
