@@ -96,13 +96,14 @@ class Pedido(db.Model):
     detalles = db.relationship('DetallePedido', backref='pedido', lazy=True, cascade='all, delete') # Detalles del pedido (productos)
 
 
+# ---------- DETALLE DE PEDIDO ----------
 class DetallePedido(db.Model):
-    __tablename__ = 'detalle_pedido'
-    id_detalle = db.Column(db.Integer, primary_key=True)
-    id_pedido = db.Column(db.Integer, db.ForeignKey('pedido.id_pedido'), nullable=False)
-    id_vinilo = db.Column(db.Integer, db.ForeignKey('vinilo.id_vinilo'), nullable=False)
-    cantidad = db.Column(db.Integer, nullable=False)
-    precio_unitario = db.Column(db.Numeric(8, 2), nullable=False)
+    __tablename__ = 'detalle_pedido' # Tabla de detalle de pedidos
+    id_detalle = db.Column(db.Integer, primary_key=True) # Clave primaria
+    id_pedido = db.Column(db.Integer, db.ForeignKey('pedido.id_pedido'), nullable=False) # Pedido asociado
+    id_vinilo = db.Column(db.Integer, db.ForeignKey('vinilo.id_vinilo'), nullable=False) # Vinilo asociado
+    cantidad = db.Column(db.Integer, nullable=False) # Cantidad comprada
+    precio_unitario = db.Column(db.Numeric(8, 2), nullable=False) # Precio por unidad
 
 
 class Recopilacion(db.Model):
