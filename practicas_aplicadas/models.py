@@ -84,16 +84,16 @@ class CancionVinilo(db.Model):
     vinilo = db.relationship('Vinilo', back_populates='canciones')
     cancion = db.relationship('Cancion', back_populates='vinilos')
 
-
+# ---------- PEDIDO ----------
 class Pedido(db.Model):
-    __tablename__ = 'pedido'
-    id_pedido = db.Column(db.Integer, primary_key=True)
-    fecha_pedido = db.Column(db.DateTime, default=datetime.utcnow)
-    observacion = db.Column(db.Text)
-    fecha_envio = db.Column(db.DateTime)
-    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'))
+    __tablename__ = 'pedido' # Tabla de pedidos
+    id_pedido = db.Column(db.Integer, primary_key=True)# Clave primaria
+    fecha_pedido = db.Column(db.DateTime, default=datetime.utcnow) # Fecha en la que se realizó
+    observacion = db.Column(db.Text) # Observaciones del pedido
+    fecha_envio = db.Column(db.DateTime) # Fecha propuesta de envío
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario')) # Usuario que hizo el pedido
 
-    detalles = db.relationship('DetallePedido', backref='pedido', lazy=True, cascade='all, delete')
+    detalles = db.relationship('DetallePedido', backref='pedido', lazy=True, cascade='all, delete') # Detalles del pedido (productos)
 
 
 class DetallePedido(db.Model):
