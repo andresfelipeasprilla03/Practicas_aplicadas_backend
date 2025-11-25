@@ -105,15 +105,15 @@ class DetallePedido(db.Model):
     cantidad = db.Column(db.Integer, nullable=False) # Cantidad comprada
     precio_unitario = db.Column(db.Numeric(8, 2), nullable=False) # Precio por unidad
 
-
+# ---------- RECOPILACIÓN DE CANCIONES (PLAYLIST) ----------
 class Recopilacion(db.Model):
-    __tablename__ = 'recopilacion'
-    id_recopilacion = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
-    es_publica = db.Column(db.Boolean, default=False)
-    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'))
+    __tablename__ = 'recopilacion' # Tabla de recopilaciones creadas por usuarios
+    id_recopilacion = db.Column(db.Integer, primary_key=True) # Clave primaria
+    nombre = db.Column(db.String(100), nullable=False) # Nombre de la playlist
+    es_publica = db.Column(db.Boolean, default=False) # Si puede ser vista por otros usuarios
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario')) # Creador de la recopilación
 
-    canciones = db.relationship('CancionRecopilacion', back_populates='recopilacion', cascade='all, delete')
+    canciones = db.relationship('CancionRecopilacion', back_populates='recopilacion', cascade='all, delete') # Canciones que contiene
 
 
 class CancionRecopilacion(db.Model):
