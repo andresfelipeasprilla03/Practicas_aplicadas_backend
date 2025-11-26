@@ -1,114 +1,90 @@
 import { useState } from "react";
+import App1 from "./App1"; // Importa tu App1
 import App2 from "./App2";
 
 function App() {
-  const [view, setView] = useState("crear"); // "crear" o "listar"
+  const [view, setView] = useState("home"); // "home", "login", "crear", "listar"
   const [usuarios, setUsuarios] = useState([]);
-  const [nombre, setNombre] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [contrasena, setContrasena] = useState("");
-  const [fechaRegistro, setFechaRegistro] = useState("");
   const [message, setMessage] = useState("");
+
+  // ---------------- Login ----------------
+  const [correoLogin, setCorreoLogin] = useState("");
+  const [contrasenaLogin, setContrasenaLogin] = useState("");
 
   const API_URL = "http://127.0.0.1:8000/home/usuarios/";
 
-  // ---------------- Crear usuario ----------------
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-
-    const nuevoUsuario = {
-      nombre_completo: nombre,
-      correo: correo,
-      contrasena: contrasena,
-      fecha_registro: fechaRegistro,
-    };
-
-    fetch(`${API_URL}new/`, {
+    fetch(`${API_URL}login/`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(nuevoUsuario),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ correo: correoLogin, contrasena: contrasenaLogin }),
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.errors) {
-          setMessage(
-            "Error: " +
-              Object.entries(data.errors)
-                .map(([k, v]) => `${k}: ${v}`)
-                .join(", ")
-          );
+        if (data.success) {
+          setMessage("Login exitoso!");
+          setView("listar");
         } else {
-          let obj = data.object;
-          if (typeof obj === "string") obj = JSON.parse(obj)[0];
-          setUsuarios((prev) => [...prev, obj]);
-          setMessage("Usuario creado correctamente!");
-          setNombre("");
-          setCorreo("");
-          setContrasena("");
-          setFechaRegistro("");
+          setMessage("Usuario o contraseña incorrecta.");
         }
       })
       .catch((err) => {
         console.error(err);
-        setMessage("Error al crear el usuario.");
+        setMessage("Error en el login.");
       });
   };
 
   // ---------------- Render ----------------
-  if (view === "listar") {
+  if (view === "login") {
     return (
       <div style={{ padding: "2rem" }}>
-        <App2 usuarios={usuarios} />
-         <button onClick={() => setView("crear")}>Volver a Crear Usuario</button>
+        <h1>Iniciar Sesión</h1>
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Correo"
+            value={correoLogin}
+            onChange={(e) => setCorreoLogin(e.target.value)}
+            required
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            value={contrasenaLogin}
+            onChange={(e) => setContrasenaLogin(e.target.value)}
+            required
+          />
+          <br />
+          <button type="submit">Iniciar Sesión</button>
+        </form>
+        <button onClick={() => setView("home")}>Volver</button>
+        {message && <p>{message}</p>}
       </div>
     );
   }
 
-  // Vista crear usuario
+  // Cuando view === "crear", renderizamos App1
+  if (view === "crear") {
+    return <App1 setView={setView} />; // pasamos setView si App1 necesita volver a home o listar
+  }
+
+  if (view === "listar") {
+    return (
+      <div style={{ padding: "2rem" }}>
+        <App2 usuarios={usuarios} />
+        <button onClick={() => setView("crear")}>Volver a Crear Usuario</button>
+      </div>
+    );
+  }
+
+  // Vista inicial
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Crear Usuario</h1>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nombre completo"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
-        <br />
-        <input
-          type="email"
-          placeholder="Correo"
-          value={correo}
-          onChange={(e) => setCorreo(e.target.value)}
-          required
-        />
-        <br />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={contrasena}
-          onChange={(e) => setContrasena(e.target.value)}
-          required
-        />
-        <br />
-        <input
-          type="date"
-          placeholder="Fecha de registro"
-          value={fechaRegistro}
-          onChange={(e) => setFechaRegistro(e.target.value)}
-          required
-        />
-        <br />
-        <button type="submit">Crear Usuario</button>
-        <button onClick={() => setView("listar")}>Ver Usuarios</button>
-      </form>
-
-      {message && <p>{message}</p>}
+      <h1>Bienvenido</h1>
+      <button onClick={() => setView("login")}>Iniciar Sesión</button>
+      <button onClick={() => setView("crear")}>Crear Usuario</button>
     </div>
   );
 }
