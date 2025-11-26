@@ -24,6 +24,37 @@ def api_echo(request):
 
 
 # ====================== USUARIO ======================
+
+@csrf_exempt
+def usuario_login(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            correo = data.get("correo")
+            contrasena = data.get("contrasena")
+
+            # Verifica si existe el usuario con correo y contraseña
+            try:
+                usuario = Usuario.objects.get(correo=correo, contrasena=contrasena)
+                return JsonResponse({
+                    "success": True,
+                    "usuario": {
+                        "id": usuario.id,
+                        "nombre_completo": usuario.nombre_completo,
+                        "correo": usuario.correo
+                    }
+                })
+            except Usuario.DoesNotExist:
+                return JsonResponse({
+                    "success": False,
+                    "message": "Correo o contraseña incorrecta."
+                })
+
+        except Exception as e:
+            return JsonResponse({"success": False, "message": str(e)})
+    return JsonResponse({"success": False, "message": "Método no permitido."})
+
+
 def usuario_list(request):
     qs = Usuario.objects.all().order_by('-id')
     return JsonResponse({"object_list": serialize("json", qs)}, safe=False)

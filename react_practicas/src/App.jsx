@@ -1,20 +1,24 @@
 import { useState } from "react";
-import App1 from "./App1"; // Importa tu App1
-import App2 from "./App2";
+import App1 from "./App1"; // Formulario para crear usuario
+import App2 from "./App2"; // Lista de usuarios
 
 function App() {
-  const [view, setView] = useState("home"); // "home", "login", "crear", "listar"
+  const [view, setView] = useState("home"); // "home", "crear", "login", "listar"
   const [usuarios, setUsuarios] = useState([]);
   const [message, setMessage] = useState("");
 
-  // ---------------- Login ----------------
+  // Datos login
   const [correoLogin, setCorreoLogin] = useState("");
   const [contrasenaLogin, setContrasenaLogin] = useState("");
+  const [usuarioActual, setUsuarioActual] = useState(null);
 
   const API_URL = "http://127.0.0.1:8000/home/usuarios/";
 
+  // ---------------- Login ----------------
   const handleLogin = (e) => {
     e.preventDefault();
+    setMessage("");
+
     fetch(`${API_URL}login/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -23,15 +27,16 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
+          setUsuarioActual(data.usuario);
           setMessage("Login exitoso!");
-          setView("listar");
+          setView("listar"); // Mostrar lista después de login
         } else {
-          setMessage("Usuario o contraseña incorrecta.");
+          setMessage(data.message || "Correo o contraseña incorrecta.");
         }
       })
       .catch((err) => {
         console.error(err);
-        setMessage("Error en el login.");
+        setMessage("Error al conectar con el servidor.");
       });
   };
 
@@ -65,21 +70,21 @@ function App() {
     );
   }
 
-  // Cuando view === "crear", renderizamos App1
   if (view === "crear") {
-    return <App1 setView={setView} />; // pasamos setView si App1 necesita volver a home o listar
+    return <App1 setView={setView} />; // Vista de crear usuario
   }
 
   if (view === "listar") {
     return (
       <div style={{ padding: "2rem" }}>
+        <h2>Bienvenido, {usuarioActual?.nombre_completo}</h2>
         <App2 usuarios={usuarios} />
-        <button onClick={() => setView("crear")}>Volver a Crear Usuario</button>
+        <button onClick={() => setView("home")}>Cerrar sesión</button>
       </div>
     );
   }
 
-  // Vista inicial
+  // Vista inicial (home)
   return (
     <div style={{ padding: "2rem" }}>
       <h1>Bienvenido</h1>

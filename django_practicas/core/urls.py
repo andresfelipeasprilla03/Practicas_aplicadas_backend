@@ -13,6 +13,7 @@ urlpatterns = [
     path("usuarios/new/", views.usuario_create, name="usuario_create"),
     path("usuarios/<int:pk>/edit/", views.usuario_update, name="usuario_update"),
     path("usuarios/<int:pk>/delete/", views.usuario_delete, name="usuario_delete"),
+    path("usuarios/login/", views.usuario_login, name="usuario_login"),
 
     # Proveedor
     path("proveedores/", views.proveedor_list, name="proveedor_list"),
