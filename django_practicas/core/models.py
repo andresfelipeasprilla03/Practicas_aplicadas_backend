@@ -133,3 +133,34 @@ class CancionRecopilacion(models.Model):
 
     def __str__(self):
         return f"{self.cancion} en {self.recopilacion}"
+
+# ---------------------------
+# Carrito
+# ---------------------------
+class Carrito(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="carritos")
+    fecha_creacion = models.DateTimeField(default=now)
+
+    def total(self):
+        # Suma los subtotales de todos los items del carrito
+        return sum(item.subtotal() for item in self.items.all())
+
+    def __str__(self):
+        return f"Carrito de {self.usuario} - {self.fecha_creacion.strftime('%Y-%m-%d %H:%M')}"
+
+# ---------------------------
+# CarritoItem
+# ---------------------------
+class CarritoItem(models.Model):
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE, related_name="items")
+    cancion = models.ForeignKey(Cancion, on_delete=models.SET_NULL, null=True, blank=True)
+    vinilo = models.ForeignKey(Vinilo, on_delete=models.SET_NULL, null=True, blank=True)
+    cantidad = models.PositiveIntegerField(default=1)
+    precio = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def subtotal(self):
+        return self.cantidad * self.precio
+
+    def __str__(self):
+        producto = self.cancion or self.vinilo
+        return f"{self.cantidad} x {producto} en {self.carrito}"

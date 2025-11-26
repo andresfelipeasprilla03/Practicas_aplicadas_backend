@@ -43,12 +43,9 @@ function App() {
   // ---------------- Render ----------------
   if (view === "login") {
     return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
+      <div style={{ padding: "2rem" }}>
         <h1>Iniciar Sesión</h1>
-        <form
-          onSubmit={handleLogin}
-          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}
-        >
+        <form onSubmit={handleLogin}>
           <input
             type="email"
             placeholder="Correo"
@@ -56,6 +53,7 @@ function App() {
             onChange={(e) => setCorreoLogin(e.target.value)}
             required
           />
+          <br />
           <input
             type="password"
             placeholder="Contraseña"
@@ -63,11 +61,10 @@ function App() {
             onChange={(e) => setContrasenaLogin(e.target.value)}
             required
           />
-          <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
-            <button type="submit">Iniciar Sesión</button>
-            <button type="button" onClick={() => setView("home")}>Volver</button>
-          </div>
+          <br />
+          <button type="submit">Iniciar Sesión</button>
         </form>
+        <button onClick={() => setView("home")}>Volver</button>
         {message && <p>{message}</p>}
       </div>
     );
@@ -79,24 +76,20 @@ function App() {
 
   if (view === "listar") {
     return (
-      <div style={{ padding: "2rem", textAlign: "center" }}>
+      <div style={{ padding: "2rem" }}>
         <h2>Bienvenido, {usuarioActual?.nombre_completo}</h2>
         <App2 usuarios={usuarios} />
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}>
-          <button onClick={() => setView("home")}>Cerrar sesión</button>
-        </div>
+        <button onClick={() => setView("home")}>Cerrar sesión</button>
       </div>
     );
   }
 
   // Vista inicial (home)
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
+    <div style={{ padding: "2rem" }}>
       <h1>Bienvenido</h1>
-      <div style={{ display: "flex", justifyContent: "center", gap: "1rem", marginTop: "1rem" }}>
-        <button onClick={() => setView("login")}>Iniciar Sesión</button>
-        <button onClick={() => setView("crear")}>Crear Usuario</button>
-      </div>
+      <button onClick={() => setView("login")}>Iniciar Sesión</button>
+      <button onClick={() => setView("crear")}>Crear Usuario</button>
     </div>
   );
 }

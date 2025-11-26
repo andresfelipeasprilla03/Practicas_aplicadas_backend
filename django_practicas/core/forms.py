@@ -93,3 +93,19 @@ class CancionRecopilacionForm(forms.ModelForm):
     class Meta:
         model = CancionRecopilacion
         fields = '__all__'
+
+        # ---------------------------
+# Carrito
+# ---------------------------
+class CarritoForm(forms.ModelForm):
+    class Meta:
+        model = Carrito
+        fields = '__all__'
+
+# ---------------------------
+# CarritoItem
+# ---------------------------
+class CarritoItemForm(forms.ModelForm):
+    class Meta:
+        model = CarritoItem
+        fields = '__all__'
