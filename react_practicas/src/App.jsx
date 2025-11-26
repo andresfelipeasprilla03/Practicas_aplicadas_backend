@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import App2 from "./App2";
 
 function App() {
   const [view, setView] = useState("crear"); // "crear" o "listar"
@@ -10,24 +11,6 @@ function App() {
   const [message, setMessage] = useState("");
 
   const API_URL = "http://127.0.0.1:8000/home/usuarios/";
-
-  // ---------------- Listar usuarios ----------------
-  const fetchUsuarios = () => {
-    fetch(API_URL)
-      .then((res) => res.json())
-      .then((data) => {
-        let lista = data.object_list;
-        if (typeof lista === "string") lista = JSON.parse(lista);
-        setUsuarios(lista);
-      })
-      .catch((err) => console.error(err));
-  };
-
-  useEffect(() => {
-    if (view === "listar") {
-      fetchUsuarios();
-    }
-  }, [view]);
 
   // ---------------- Crear usuario ----------------
   const handleSubmit = (e) => {
@@ -75,38 +58,18 @@ function App() {
 
   // ---------------- Render ----------------
   if (view === "listar") {
-    // Vista App2: Listar usuarios
     return (
       <div style={{ padding: "2rem" }}>
-        <button onClick={() => setView("crear")}>Volver a Crear Usuario</button>
-        <h1>Usuarios Registrados</h1>
-        <ul>
-          {usuarios.map((u) => (
-            <li key={u.pk}>
-              <strong>Nombre:</strong> {u.fields.nombre_completo} <br />
-              <strong>Correo:</strong> {u.fields.correo} <br />
-              <strong>Fecha de registro:</strong> {u.fields.fecha_registro}
-            </li>
-          ))}
-        </ul>
+        <App2 usuarios={usuarios} />
+         <button onClick={() => setView("crear")}>Volver a Crear Usuario</button>
       </div>
     );
   }
 
-  // Vista App1: Crear usuario
+  // Vista crear usuario
   return (
     <div style={{ padding: "2rem" }}>
-      <button onClick={() => setView("listar")}>Ver Usuarios</button>
       <h1>Crear Usuario</h1>
-
-      <ul>
-        {usuarios.map((u) => (
-          <li key={u.pk}>
-            {u.fields.nombre_completo} - {u.fields.correo} -{" "}
-            {u.fields.fecha_registro}
-          </li>
-        ))}
-      </ul>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -142,6 +105,7 @@ function App() {
         />
         <br />
         <button type="submit">Crear Usuario</button>
+        <button onClick={() => setView("listar")}>Ver Usuarios</button>
       </form>
 
       {message && <p>{message}</p>}
