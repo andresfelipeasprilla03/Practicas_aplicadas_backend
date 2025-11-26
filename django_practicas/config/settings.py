@@ -68,7 +68,10 @@ TEMPLATES = [
         },
     },
 ]
-
+# Confiar en React para CSRF
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
+]
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]

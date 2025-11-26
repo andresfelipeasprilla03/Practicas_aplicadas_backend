@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from django.core.serializers import serialize
 from .models import *
@@ -25,7 +26,7 @@ def usuario_list(request):
     qs = Usuario.objects.all().order_by('-id')
     return JsonResponse({"object_list": serialize("json", qs)}, safe=False)
 
-
+@csrf_exempt
 @require_http_methods(["GET", "POST"])
 def usuario_create(request):
     if request.method == "POST":
