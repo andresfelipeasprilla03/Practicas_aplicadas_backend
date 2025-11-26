@@ -1,4 +1,3 @@
-# core/urls.py
 from django.urls import path
 from . import views
 
@@ -18,7 +17,7 @@ urlpatterns = [
     # Proveedor
     path("proveedores/", views.proveedor_list, name="proveedor_list"),
     path("proveedores/new/", views.proveedor_create, name="proveedor_create"),
-    path("proveedores/<int:pk>/edit  /", views.proveedor_update, name="proveedor_update"),
+    path("proveedores/<int:pk>/edit/", views.proveedor_update, name="proveedor_update"),
     path("proveedores/<int:pk>/delete/", views.proveedor_delete, name="proveedor_delete"),
 
     # Género

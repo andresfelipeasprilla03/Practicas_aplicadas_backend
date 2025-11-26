@@ -8,7 +8,7 @@ from .models import *
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = Usuario
-        fields = '_all_'
+        fields = '__all__'
         widgets = {
             'contrasena': forms.PasswordInput(),  # ocultar contraseña
         }
@@ -20,7 +20,7 @@ class UsuarioForm(forms.ModelForm):
 class ProveedorForm(forms.ModelForm):
     class Meta:
         model = Proveedor
-        fields = '_all_'
+        fields = '__all__'
 
 
 # ---------------------------
@@ -29,7 +29,7 @@ class ProveedorForm(forms.ModelForm):
 class GeneroForm(forms.ModelForm):
     class Meta:
         model = Genero
-        fields = '_all_'
+        fields = '__all__'
 
 
 # ---------------------------
@@ -38,7 +38,7 @@ class GeneroForm(forms.ModelForm):
 class CancionForm(forms.ModelForm):
     class Meta:
         model = Cancion
-        fields = '_all_'
+        fields = '__all__'
 
 
 # ---------------------------
@@ -47,7 +47,7 @@ class CancionForm(forms.ModelForm):
 class ViniloForm(forms.ModelForm):
     class Meta:
         model = Vinilo
-        fields = '_all_'
+        fields = '__all__'
 
 
 # ---------------------------
@@ -56,7 +56,7 @@ class ViniloForm(forms.ModelForm):
 class CancionViniloForm(forms.ModelForm):
     class Meta:
         model = CancionVinilo
-        fields = '_all_'
+        fields = '__all__'
 
 
 # ---------------------------
@@ -65,7 +65,7 @@ class CancionViniloForm(forms.ModelForm):
 class PedidoForm(forms.ModelForm):
     class Meta:
         model = Pedido
-        fields = '_all_'
+        fields = '__all__'
 
 
 # ---------------------------
@@ -74,7 +74,7 @@ class PedidoForm(forms.ModelForm):
 class DetallePedidoForm(forms.ModelForm):
     class Meta:
         model = DetallePedido
-        fields = '_all_'
+        fields = '__all__'
 
 
 # ---------------------------
@@ -83,7 +83,7 @@ class DetallePedidoForm(forms.ModelForm):
 class RecopilacionForm(forms.ModelForm):
     class Meta:
         model = Recopilacion
-        fields = '_all_'
+        fields = '__all__'
 
 
 # ---------------------------
@@ -92,4 +92,4 @@ class RecopilacionForm(forms.ModelForm):
 class CancionRecopilacionForm(forms.ModelForm):
     class Meta:
         model = CancionRecopilacion
-        fields = '_all_'
+        fields = '__all__'
