@@ -5,6 +5,8 @@ from django.http import JsonResponse
 from django.core.serializers import serialize
 from .models import *
 from .forms import *
+from django.contrib.auth.hashers import make_password
+import json
 # ====================== BÁSICOS ======================
 def home(request):
     return JsonResponse({"title": "Tienda de Vinilos y Música Digital"})
@@ -27,17 +29,21 @@ def usuario_list(request):
     return JsonResponse({"object_list": serialize("json", qs)}, safe=False)
 
 @csrf_exempt
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["POST"])
 def usuario_create(request):
-    if request.method == "POST":
-        form = UsuarioForm(request.POST)
-        if form.is_valid():
-            obj = form.save()
-            return JsonResponse({"object": serialize("json", [obj])}, safe=False)
-    else:
-        form = UsuarioForm()
-    return JsonResponse({"form": "GET request - form not serialized", "mode": "create"})
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({"error": "JSON inválido"}, status=400)
 
+    form = UsuarioForm(data)
+    if form.is_valid():
+        obj = form.save(commit=False)
+        obj.contrasena = make_password(obj.contrasena)  # si quieres encriptar
+        obj.save()
+        return JsonResponse({"object": serialize("json", [obj])}, safe=False)
+    else:
+        return JsonResponse({"errors": form.errors}, status=400)
 
 @require_http_methods(["GET", "POST"])
 def usuario_update(request, pk):
